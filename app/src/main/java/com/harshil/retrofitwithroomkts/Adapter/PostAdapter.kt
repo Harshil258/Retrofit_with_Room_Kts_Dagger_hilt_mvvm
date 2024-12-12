@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.harshil.retrofitwithroomkts.Model.Post
+import com.harshil.retrofitwithroomkts.Model.PostModel
 import com.harshil.retrofitwithroomkts.R
 
-class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(PostDiffCallback()) {
+class PostAdapter : ListAdapter<PostModel, PostAdapter.PostViewHolder>(PostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_row, parent, false)
@@ -25,17 +25,17 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(PostDiffCallba
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val bodyTextView: TextView = itemView.findViewById(R.id.body)
 
-        fun bind(post: Post) {
-            bodyTextView.text = post.body
+        fun bind(postModel: PostModel) {
+            bodyTextView.text = postModel.body
         }
     }
 
-    class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
-        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+    class PostDiffCallback : DiffUtil.ItemCallback<PostModel>() {
+        override fun areItemsTheSame(oldItem: PostModel, newItem: PostModel): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+        override fun areContentsTheSame(oldItem: PostModel, newItem: PostModel): Boolean {
             return oldItem == newItem
         }
     }

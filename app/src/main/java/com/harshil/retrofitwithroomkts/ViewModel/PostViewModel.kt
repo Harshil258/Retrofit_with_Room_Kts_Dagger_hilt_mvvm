@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.harshil.retrofitwithroomkts.Model.Post
+import com.harshil.retrofitwithroomkts.Model.PostModel
 import com.harshil.retrofitwithroomkts.Repository.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,15 +17,18 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(private val postRepository: PostRepository) : ViewModel() {
 
-    val getAllPost: LiveData<List<Post>> = postRepository.getAllPost.flowOn(Dispatchers.Main)
+    private val _getAllPostModel = postRepository.getAllPostModel
         .asLiveData(context = viewModelScope.coroutineContext)
+    val getAllPostModel: LiveData<List<PostModel>> = _getAllPostModel
 
-    fun insert(postList: List<Post>) = viewModelScope.launch {
-        postRepository.insert(postList)
+    private val _getData = postRepository.getData()
+        .catch { e -> Log.e("PostViewModel", "Error fetching data: ${e.message}") }
+        .asLiveData()
+    val getData: LiveData<List<PostModel>> = _getData
+
+    fun insert(postModelList: List<PostModel>) {
+        viewModelScope.launch {
+            postRepository.insert(postModelList)
+        }
     }
-
-    val getData = postRepository.getData().catch { e ->
-            Log.d("main", "${e.message}")
-        }.asLiveData()
-
 }
