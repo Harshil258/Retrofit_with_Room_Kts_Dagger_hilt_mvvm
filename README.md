@@ -39,4 +39,4 @@ Before you can run this project, ensure you have the following installed:
 To clone and set up the project on your local machine:
 
 ```bash
-git clone https://github.com/yourusername/Retrofit_with_Room_Kts_Dagger_hilt_mvvm.git
+git clone https://github.com/Harshil258/Retrofit_with_Room_Kts_Dagger_hilt_mvvm
