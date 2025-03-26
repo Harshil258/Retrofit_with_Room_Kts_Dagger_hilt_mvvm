@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harshil.retrofitwithroomkts.Adapter.PostAdapter
+import com.harshil.retrofitwithroomkts.Model.PostModel
 import com.harshil.retrofitwithroomkts.ViewModel.PostViewModel
 import com.harshil.retrofitwithroomkts.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,9 +64,23 @@ class MainActivity : AppCompatActivity() {
 
                 launch {
                     viewModel.getAllPostModel.observe(this@MainActivity) { posts ->
-                        binding.progressBar.visibility = if (posts.isEmpty()) View.VISIBLE else View.GONE
-                        binding.recyclerview.visibility = if (posts.isNotEmpty()) View.VISIBLE else View.GONE
-                        postAdapter.submitList(posts)
+                        binding.progressBar.visibility =
+                            if (posts.isEmpty()) View.VISIBLE else View.GONE
+                        binding.recyclerview.visibility =
+                            if (posts.isNotEmpty()) View.VISIBLE else View.GONE
+
+                        val itemsWithTitles = mutableListOf<PostModel>()
+                        posts.forEachIndexed { index, post ->
+                            if (index % 5 == 0) {
+                                itemsWithTitles.add(
+                                    PostModel(
+                                        body = ("TITLE ${((index / 5) + 1)}").toString()
+                                    )
+                                )
+                            }
+                            itemsWithTitles.add(post)
+                        }
+                        postAdapter.submitList(itemsWithTitles)
                     }
                 }
             }
