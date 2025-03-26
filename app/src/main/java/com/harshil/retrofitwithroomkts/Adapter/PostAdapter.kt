@@ -18,6 +18,7 @@ class PostAdapter : ListAdapter<PostModel, RecyclerView.ViewHolder>(PostDiffCall
         POST(1)
     }
 
+
     override fun getItemViewType(position: Int): Int {
         return if (getItem(position).body.contains("TITLE")) {
             VIEW_TYPE.TITLE.ordinal
