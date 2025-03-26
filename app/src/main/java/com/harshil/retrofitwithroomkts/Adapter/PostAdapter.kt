@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.harshil.retrofitwithroomkts.Model.PostModel
@@ -17,7 +18,6 @@ class PostAdapter : ListAdapter<PostModel, RecyclerView.ViewHolder>(PostDiffCall
         TITLE(0),
         POST(1)
     }
-
 
     override fun getItemViewType(position: Int): Int {
         return if (getItem(position).body.contains("TITLE")) {
@@ -47,6 +47,20 @@ class PostAdapter : ListAdapter<PostModel, RecyclerView.ViewHolder>(PostDiffCall
         when (holder) {
             is PostViewHolder -> holder.bind(item)
             is TitleViewHolder -> holder.bind(item)
+        }
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        val layoutManager = recyclerView.layoutManager as GridLayoutManager
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (getItemViewType(position) == VIEW_TYPE.TITLE.ordinal) {
+                    2
+                } else {
+                    1
+                }
+            }
         }
     }
 

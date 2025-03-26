@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harshil.retrofitwithroomkts.Adapter.PostAdapter
 import com.harshil.retrofitwithroomkts.Model.PostModel
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         postAdapter = PostAdapter()
         binding.recyclerview.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = GridLayoutManager(this@MainActivity,2)
             adapter = postAdapter
         }
     }
